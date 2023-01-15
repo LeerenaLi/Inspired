@@ -66,13 +66,11 @@
         padding: 14px 40px;
         font-weight: 700;
         font-size: 14px;
-        line-height: 17px;
         text-transform: uppercase;
         border: 1px solid $second-color;
         transition: 0.3s ease-in-out;
         @include tablet {
             font-size: 10px;
-            line-height: 12px;
             padding: 12px 40px;
         }
         &:hover {
