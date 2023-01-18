@@ -8,7 +8,7 @@ export const mainPage = (gender = 'women') => {
     renderNavigation(gender);
     renderHero(gender);
     renderGoods('НОВИНКИ', {gender});
-    // renderFooter(gender);
+    // renderFooter();
 }
 
 

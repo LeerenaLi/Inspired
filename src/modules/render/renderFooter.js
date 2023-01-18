@@ -22,50 +22,101 @@ const tgLink = createElement('a', {
     href: 'tg'
 })
 
-const container = createElement('div', 
-    {
-        className: 'container'
+
+
+const createFooterCategory = () => {
+    const footerCategory = createElement('div', 
+        {
+            className: 'footer__item footer__item_category footer-category'
+        }, 
+        {
+            append: createElement('h2', {
+                className: 'footer__title footer-category__title',
+                textContent: 'Каталог'
+            })
+        }
+    );
+
+    const footerCategoryList = createElement('ul', 
+        {
+            className: 'footer-category__list'
+        },
+        {
+            parent: footerCategory,
+        }
+    );
+
+    for (const key in DATA.navigation) {
+        const footerCategoryItem = createElement('li', 
+            {
+                className: 'footer-category__item',
+            },
+            {
+                parent: footerCategoryList,
+                append: createElement('h3', {
+                        className: 'footer-category__subtitle',
+                    },
+                    {
+                        append: createElement('a',
+                            {
+                                className: 'footer__link',
+                                href: `#/${key}`,
+                                textContent: DATA.navigation[key].title,
+                            }
+                        )
+                    }
+                )
+            }
+        );
+
+        createElement('ul', {
+            className: 'footer-category__sublist',
+        },
+          {
+            parent: footerCategoryItem,
+            appends: DATA.navigation[key].list.map(item =>
+                    createElement('li', {
+                        className: 'footer-category__subitem',
+                    },
+                    {
+                        append: createElement('a', 
+                            {
+                                className: 'footer__link',
+                                textContent: item.title,
+                                href: `#/${key}/${item.slug}`,
+                            }
+                        )
+                    }
+                )
+            )
+          }  
+        );
     }
-)
 
-const footerContainer = createElement('div', 
-    {
-        className: 'footer__container'
-    }, 
-    {
-        parent: container,
-    }
-)
-
-const footerCategory = createElement('div', 
-    {
-        className: 'footer__item footer__item_category footer-category'
-    }, 
-    {
-        parent: footerContainer,
-        append: createElement('h2', {
-            className: 'footer__title footer-category__title',
-            textContent: 'Каталог'
-        })
-    }
-)
-
-const footerCategoryList = createElement('ul', 
-    {
-        className: 'footer-category__list'
-    },
-    {
-        parent: footerCategory,
-    }
-)
+    return footerCategory;
+}
 
 
-const footerSocial = createElement('div', 
+export const renderFooter = () => {
+    const footer = document.querySelector('.footer');
+
+    footer.textContent = '';
+
+    const container = createElement('div', 
+        {
+            className: 'container footer__container'
+        },
+        {
+            append: createFooterCategory()
+        }
+    )
+
+    const footerSocial = createElement('div', 
     {
         className: 'footer__item footer__item_social footer-social'
     },
     {
-        parent: footerContainer,
+        parent: container,
         appends: [
             createElement('h2', {
                 className: 'footer__title footer-social__title',
@@ -97,149 +148,162 @@ const footerSocial = createElement('div',
             
         ]
     }
-)
+    )
 
-const footerContacts = createElement('div', 
-    {
-        className: 'footer__item footer__item_contacts footer-contacts'
-    },
-    {
-        parent: footerContainer,
-        appends: [
-            createElement('a', {
-                className: 'footer__link',
-                textContent: 'Inspired@gmail.com',
-                href: 'mailto:Inspired@gmail.com'
-            }),
-            createElement('a', {
-                className: 'footer__link',
-                textContent: '8 930 490 26 20',
-                href: 'tel:89304902620'
+    const footerContacts = createElement('div', 
+        {
+            className: 'footer__item footer__item_contacts footer-contacts'
+        },
+        {
+            parent: container,
+            appends: [
+                createElement('a', {
+                    className: 'footer__link',
+                    textContent: 'Inspired@gmail.com',
+                    href: 'mailto:Inspired@gmail.com'
+                }),
+                createElement('a', {
+                    className: 'footer__link',
+                    textContent: '8 930 490 26 20',
+                    href: 'tel:89304902620'
+                })
+            ]
+        }
+    )
+
+    const footerCopyright = createElement('div', 
+        {
+            className: 'footer__item footer__item_copyright footer-copyright',
+        },
+        {   
+            parent: container,
+            append: createElement('p', {
+                textContent: '© INSPIRED, 2023'
             })
-        ]
-    }
-)
+        }
+    )
 
-const footerCopyright = createElement('div', 
-    {
-        className: 'footer__item footer__item_copyright footer-copyright',
-    },
-    {   
-        parent: footerContainer,
-        append: createElement('p', {
-            textContent: '© INSPIRED, 2023'
-        })
-    }
-)
-
-const footerDevlopment = createElement('div', 
-    {
-        className: 'footer__item footer__item_development footer-development'
-    },
-    {
-        parent: footerContainer,
-        append: createElement('ul', 
-            {
-                className: 'footer-development__list'
-            },
-            {
-                appends: [
-                    createElement('li', 
-                        {
-                            className: 'footer-development__item',
-                            textContent: 'Designer: '
-                        },
-                        {
-                            append: createElement('a', {
-                                textContent: 'Anastasia Ilina',
-                                href: 'https://t.me/Mrshmallowww'
-                            })
-                        }
-                    ),
-                    createElement('li', 
-                        {
-                            className: 'footer-development__item',
-                            textContent: 'Developer: '
-                        },
-                        {
-                            append: createElement('a', {
-                                textContent: 'Elena Shipilevskaya',
-                                href: 'https://vk.com/leerena_li'
-                            })
-                        }
-                    )
-                ]
-            }
-        )
-    }
-)
-
-
-
-export const renderFooter = () => {
-    const footer = document.querySelector('.footer');
-
-    footer.textContent = '';
+    const footerDevlopment = createElement('div', 
+        {
+            className: 'footer__item footer__item_development footer-development'
+        },
+        {
+            parent: container,
+            append: createElement('ul', 
+                {
+                    className: 'footer-development__list'
+                },
+                {
+                    appends: [
+                        createElement('li', 
+                            {
+                                className: 'footer-development__item',
+                                textContent: 'Designer: '
+                            },
+                            {
+                                append: createElement('a', {
+                                    textContent: 'Anastasia Ilina',
+                                    href: 'https://t.me/Mrshmallowww'
+                                })
+                            }
+                        ),
+                        createElement('li', 
+                            {
+                                className: 'footer-development__item',
+                                textContent: 'Developer: '
+                            },
+                            {
+                                append: createElement('a', {
+                                    textContent: 'Elena Shipilevskaya',
+                                    href: 'https://vk.com/leerena_li'
+                                })
+                            }
+                        )
+                    ]
+                }
+            )
+        }
+    )
 
     footer.append(container);
    
-    for (const genders in DATA.navigation) {
-        createElement('li', 
-            {
-                className: 'footer-category__item',
-            },
-            {
-                parent: footerCategoryList,
-                appends: [
-                    createElement('h3', 
-                        {
-                            className: 'footer-category__subtitle',
-                            textContent: DATA.navigation[genders].title
-                        }
-                    ),
-                    createElement('ul', 
-                        {
-                            className: `footer-category__sublist`
-                        },
-                    )
-                ]
-            }
-        )
-    }
+    // for (const genders in DATA.navigation) {
+    //     createElement('li', 
+    //         {
+    //             className: 'footer-category__item',
+    //         },
+    //         {
+    //             parent: footerCategoryList,
+    //             appends: [
+    //                 createElement('a', 
+    //                     {
+    //                         className: 'footer-category__subtitle',
+    //                         href: `#/${genders}`,
+    //                         textContent: DATA.navigation[genders].title
+    //                     }
+    //                 ),
+    //                 createElement('ul', 
+    //                     {
+    //                         className: `footer-category__sublist`
+    //                     },
+    //                     {
+    //                         appends: DATA.navigation[genders].list.map((item) =>
+    //                             createElement('li', 
+    //                                 {
+    //                                     className: 'footer-category__subitem',
+    //                                 },
+    //                                 {
+    //                                     parent: document.querySelectorAll('.footer-category__sublist')[0],
+    //                                     append: createElement('a', 
+    //                                         {
+    //                                             className: 'footer__link',
+    //                                             textContent: item.title,
+    //                                             href: `#/women/${item.slug}`,
+    //                                         }
+    //                                     )
+    //                                 }
+    //                             )
+    //                         )
+    //                     } 
+    //                 )
+    //             ]
+    //         }
+    //     )
+    // }
 
-    const footerCategoryWomenItems = DATA.navigation.women.list.map((item) =>
-        createElement('li', 
-            {
-                className: 'footer-category__subitem',
-            },
-            {
-                parent: document.querySelectorAll('.footer-category__sublist')[0],
-                append: createElement('a', 
-                    {
-                        className: 'footer__link',
-                        textContent: item.title,
-                        href: `#/women/${item.slug}`,
-                    }
-                )
-            }
-        )
-    )
+    // const footerCategoryWomenItems = DATA.navigation.women.list.map((item) =>
+    //     createElement('li', 
+    //         {
+    //             className: 'footer-category__subitem',
+    //         },
+    //         {
+    //             parent: document.querySelectorAll('.footer-category__sublist')[0],
+    //             append: createElement('a', 
+    //                 {
+    //                     className: 'footer__link',
+    //                     textContent: item.title,
+    //                     href: `#/women/${item.slug}`,
+    //                 }
+    //             )
+    //         }
+    //     )
+    // )
 
-    const footerCategoryMenTtems = DATA.navigation.men.list.map((item) =>
-        createElement('li', 
-            {
-                className: 'footer-category__subitem',
-            },
-            {
-                parent: document.querySelectorAll('.footer-category__sublist')[1],
-                append: createElement('a', 
-                    {
-                        className: 'footer__link',
-                        textContent: item.title,
-                        href: `#/men/${item.slug}`,
-                    }
-                )
-            }
-        )   
-    )
+    // const footerCategoryMenTtems = DATA.navigation.men.list.map((item) =>
+    //     createElement('li', 
+    //         {
+    //             className: 'footer-category__subitem',
+    //         },
+    //         {
+    //             parent: document.querySelectorAll('.footer-category__sublist')[1],
+    //             append: createElement('a', 
+    //                 {
+    //                     className: 'footer__link',
+    //                     textContent: item.title,
+    //                     href: `#/men/${item.slug}`,
+    //                 }
+    //             )
+    //         }
+    //     )   
+    // )
 };
