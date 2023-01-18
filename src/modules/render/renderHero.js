@@ -1,3 +1,4 @@
+import { TITLE } from "../const";
 import { createElement } from "../createElement";
 
 const container = createElement('div', 
@@ -18,7 +19,6 @@ const heroContent = createElement('div',
 const heroTitle = createElement('h2', 
     {
         className: `hero__title`,
-        textContent: ''
     },
     {
         parent: heroContent
@@ -29,7 +29,6 @@ const heroLink = createElement('a',
     {
         className: 'hero__link',
         textContent: 'Перейти',
-        href: ``
     },
     {
         parent: heroContent
@@ -50,6 +49,9 @@ export const renderHero = (gender) => {
 
     hero.append(container);
 
-    heroTitle.textContent = `${gender === 'women' ? 'Новая коллекция Бюстгальтер-балконет' : 'Боксеры из новой коллекции'}`;
-    heroLink.href = `colection${gender}`;
+    // heroTitle.textContent = `${gender === 'women' ? 'Новая коллекция Бюстгальтер-балконет' : 'Боксеры из новой коллекции'}`;
+    // heroLink.href = `colection${gender}`;
+
+    heroTitle.textContent = TITLE[gender].title;
+    heroLink.href = `#/product/${TITLE[gender].id}`;
 };

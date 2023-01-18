@@ -1,5 +1,6 @@
+import { DATA } from "../const";
+console.log('DATA: ', DATA);
 import { createElement } from "../createElement";
-import { dataNavigation } from "../dataNavigation";
 
 const vkLink = createElement('a', {
     className: 'footer-social__link footer-social__link_vk footer__link',
@@ -57,30 +58,6 @@ const footerCategoryList = createElement('ul',
         parent: footerCategory,
     }
 )
-
-for (const genders in dataNavigation) {
-    createElement('li', 
-        {
-            className: 'footer-category__item',
-        },
-        {
-            parent: footerCategoryList,
-            appends: [
-                createElement('h3', 
-                    {
-                        className: 'footer-category__subtitle',
-                        textContent: dataNavigation[genders].title
-                    }
-                ),
-                createElement('ul', 
-                    {
-                        className: `footer-category__sublist`
-                    },
-                )
-            ]
-        }
-    )
-}
 
 
 const footerSocial = createElement('div', 
@@ -206,8 +183,31 @@ export const renderFooter = () => {
 
     footer.append(container);
    
+    for (const genders in DATA.navigation) {
+        createElement('li', 
+            {
+                className: 'footer-category__item',
+            },
+            {
+                parent: footerCategoryList,
+                appends: [
+                    createElement('h3', 
+                        {
+                            className: 'footer-category__subtitle',
+                            textContent: DATA.navigation[genders].title
+                        }
+                    ),
+                    createElement('ul', 
+                        {
+                            className: `footer-category__sublist`
+                        },
+                    )
+                ]
+            }
+        )
+    }
 
-    const footerCategoryWomenItems = dataNavigation.women.list.map((item) =>
+    const footerCategoryWomenItems = DATA.navigation.women.list.map((item) =>
         createElement('li', 
             {
                 className: 'footer-category__subitem',
@@ -225,7 +225,7 @@ export const renderFooter = () => {
         )
     )
 
-    const footerCategoryMenTtems = dataNavigation.men.list.map((item) =>
+    const footerCategoryMenTtems = DATA.navigation.men.list.map((item) =>
         createElement('li', 
             {
                 className: 'footer-category__subitem',
