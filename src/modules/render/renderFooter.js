@@ -1,5 +1,5 @@
 import { DATA } from "../const";
-import { createElement } from "../createElement";
+import { createElement } from "../utils/createElement";
 
 const vkLink = createElement('a', {
     className: 'footer-social__link footer-social__link_vk footer__link',
