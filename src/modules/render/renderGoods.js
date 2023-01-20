@@ -1,6 +1,7 @@
-import { API_URL, DATA } from "../const";
+import { API_URL, COUNT_PAGINATION, DATA } from "../const";
 import { createElement } from "../createElement";
 import { getData } from "../getData";
+import { renderPagination } from "./renderPagination";
 
 
 export const renderGoods = async (title, params) => {
@@ -8,8 +9,9 @@ export const renderGoods = async (title, params) => {
 
     products.textContent = '';
 
-    const goods = await getData(`${API_URL}/api/goods`, params);
-    console.log('goods: ', goods);
+    const data = await getData(`${API_URL}/api/goods`, params);
+
+    const goods = Array.isArray(data) ? data : data.goods;
 
     const container = createElement('div', {
         className: 'container',
@@ -52,7 +54,7 @@ export const renderGoods = async (title, params) => {
             parent: li
         });
 
-        const colors = createElement('ul', {
+        createElement('ul', {
             className: 'product__color-list',
         },
         {
@@ -72,7 +74,7 @@ export const renderGoods = async (title, params) => {
         return li;
     })
 
-    const list = createElement('ul', {
+    createElement('ul', {
         className: 'goods__list',
     },
     {
@@ -80,243 +82,16 @@ export const renderGoods = async (title, params) => {
         appends: listCard,
     });
 
-    // products.innerHTML = `
-    //     <div class="container">
-    //         <h2 class="goods__title"></h2>
+    if (data.pages && data.pages > 1) {
+        const pagination = createElement('div', 
+            {
+                className: 'goods__pagination pagination'
+            },
+            {
+                parent: container,
+            },
+        )
 
-    //         <ul class="goods__list">
-    //             <li class="goods__item">
-    //                 <article class="product">
-    //                     <a href="#" class="product__link">
-    //                         <img src="img/product01.jpg" alt="Бюстгальтер-Балконет Wien из Микрофибры" class="product__image">
-    //                         <h3 class="product__title">Бюстгальтер-Балконет Wien из Микрофибры</h3>
-    //                     </a>
-
-    //                     <div class="product__row">
-    //                         <p class="product__price">руб 2999</p>
-
-    //                         <button class="product__btn-favorite product__btn-favorite_active" aria-label="Добавить в избранное">
-                                    
-    //                         </button>
-    //                     </div>
-
-    //                     <ul class="product__color-list">
-    //                         <li class="product__color-item product__color-item_check">
-    //                             <div class="color color_beige" data-color=""></div>
-    //                         </li>
-    //                         <li class="product__color-item">
-    //                             <div class="color color_red"></div>
-    //                         </li>
-    //                         <li class="product__color-item">
-    //                             <div class="color color_white"></div>
-    //                         </li>
-    //                     </ul>
-    //                 </article>
-    //             </li>
-
-    //             <li class="goods__item">
-    //                 <article class="product">
-    //                     <a href="#" class="product__link">
-    //                         <img src="img/product01.jpg" alt="Бюстгальтер-Балконет Wien из Микрофибры" class="product__image">
-    //                         <h3 class="product__title">Бюстгальтер-Балконет Wien из Микрофибры</h3>
-    //                     </a>
-
-    //                     <div class="product__row">
-    //                         <p class="product__price">руб 2999</p>
-
-    //                         <button class="product__btn-favorite" aria-label="Добавить в избранное">
-                                    
-    //                         </button>
-    //                     </div>
-
-    //                     <ul class="product__color-list">
-    //                         <li class="product__color-item product__color-item_check">
-    //                             <div class="color color_beige"></div>
-    //                         </li>
-    //                         <li class="product__color-item">
-    //                             <div class="color color_red"></div>
-    //                         </li>
-    //                         <li class="product__color-item">
-    //                             <div class="color color_white"></div>
-    //                         </li>
-    //                     </ul>
-    //                 </article>
-    //             </li>
-
-    //             <li class="goods__item">
-    //                 <article class="product">
-    //                     <a href="#" class="product__link">
-    //                         <img src="img/product02.jpg" alt="Бюстгальтер-Балконет Wien из Микрофибры" class="product__image">
-    //                         <h3 class="product__title">Бюстгальтер-Балконет Wien из Микрофибры</h3>
-    //                     </a>
-
-    //                     <div class="product__row">
-    //                         <p class="product__price">руб 2999</p>
-
-    //                         <button class="product__btn-favorite" aria-label="Добавить в избранное">
-                                    
-    //                         </button>
-    //                     </div>
-
-    //                     <ul class="product__color-list">
-    //                         <li class="product__color-item product__color-item_check">
-    //                             <div class="color color_beige"></div>
-    //                         </li>
-    //                         <li class="product__color-item">
-    //                             <div class="color color_red"></div>
-    //                         </li>
-    //                         <li class="product__color-item">
-    //                             <div class="color color_white"></div>
-    //                         </li>
-    //                     </ul>
-    //                 </article>
-    //             </li>
-
-    //             <li class="goods__item">
-    //                 <article class="product">
-    //                     <a href="#" class="product__link">
-    //                         <img src="img/product01.jpg" alt="Бюстгальтер-Балконет Wien из Микрофибры" class="product__image">
-    //                         <h3 class="product__title">Бюстгальтер-Балконет Wien из Микрофибры</h3>
-    //                     </a>
-
-    //                     <div class="product__row">
-    //                         <p class="product__price">руб 2999</p>
-
-    //                         <button class="product__btn-favorite" aria-label="Добавить в избранное">
-                                    
-    //                         </button>
-    //                     </div>
-
-    //                     <ul class="product__color-list">
-    //                         <li class="product__color-item product__color-item_check">
-    //                             <div class="color color_beige"></div>
-    //                         </li>
-    //                         <li class="product__color-item">
-    //                             <div class="color color_red"></div>
-    //                         </li>
-    //                         <li class="product__color-item">
-    //                             <div class="color color_white"></div>
-    //                         </li>
-    //                     </ul>
-    //                 </article>
-    //             </li>
-
-    //             <li class="goods__item">
-    //                 <article class="product">
-    //                     <a href="#" class="product__link">
-    //                         <img src="img/product02.jpg" alt="Бюстгальтер-Балконет Wien из Микрофибры" class="product__image">
-    //                         <h3 class="product__title">Бюстгальтер-Балконет Wien из Микрофибры</h3>
-    //                     </a>
-
-    //                     <div class="product__row">
-    //                         <p class="product__price">руб 2999</p>
-
-    //                         <button class="product__btn-favorite" aria-label="Добавить в избранное">
-                                    
-    //                         </button>
-    //                     </div>
-
-    //                     <ul class="product__color-list">
-    //                         <li class="product__color-item product__color-item_check">
-    //                             <div class="color color_beige"></div>
-    //                         </li>
-    //                         <li class="product__color-item">
-    //                             <div class="color color_red"></div>
-    //                         </li>
-    //                         <li class="product__color-item">
-    //                             <div class="color color_white"></div>
-    //                         </li>
-    //                     </ul>
-    //                 </article>
-    //             </li>
-
-    //             <li class="goods__item">
-    //                 <article class="product">
-    //                     <a href="#" class="product__link">
-    //                         <img src="img/product01.jpg" alt="Бюстгальтер-Балконет Wien из Микрофибры" class="product__image">
-    //                         <h3 class="product__title">Бюстгальтер-Балконет Wien из Микрофибры</h3>
-    //                     </a>
-
-    //                     <div class="product__row">
-    //                         <p class="product__price">руб 2999</p>
-
-    //                         <button class="product__btn-favorite" aria-label="Добавить в избранное">
-                                    
-    //                         </button>
-    //                     </div>
-
-    //                     <ul class="product__color-list">
-    //                         <li class="product__color-item product__color-item_check">
-    //                             <div class="color color_beige"></div>
-    //                         </li>
-    //                         <li class="product__color-item">
-    //                             <div class="color color_red"></div>
-    //                         </li>
-    //                         <li class="product__color-item">
-    //                             <div class="color color_white"></div>
-    //                         </li>
-    //                     </ul>
-    //                 </article>
-    //             </li>
-
-    //             <li class="goods__item">
-    //                 <article class="product">
-    //                     <a href="#" class="product__link">
-    //                         <img src="img/product01.jpg" alt="Бюстгальтер-Балконет Wien из Микрофибры" class="product__image">
-    //                         <h3 class="product__title">Бюстгальтер-Балконет Wien из Микрофибры</h3>
-    //                     </a>
-
-    //                     <div class="product__row">
-    //                         <p class="product__price">руб 2999</p>
-
-    //                         <button class="product__btn-favorite" aria-label="Добавить в избранное">
-                                    
-    //                         </button>
-    //                     </div>
-
-    //                     <ul class="product__color-list">
-    //                         <li class="product__color-item product__color-item_check">
-    //                             <div class="color color_beige"></div>
-    //                         </li>
-    //                         <li class="product__color-item">
-    //                             <div class="color color_red"></div>
-    //                         </li>
-    //                         <li class="product__color-item">
-    //                             <div class="color color_white"></div>
-    //                         </li>
-    //                     </ul>
-    //                 </article>
-    //             </li>
-
-    //             <li class="goods__item">
-    //                 <article class="product">
-    //                     <a href="#" class="product__link">
-    //                         <img src="img/product01.jpg" alt="Бюстгальтер-Балконет Wien из Микрофибры" class="product__image">
-    //                         <h3 class="product__title">Бюстгальтер-Балконет Wien из Микрофибры</h3>
-    //                     </a>
-
-    //                     <div class="product__row">
-    //                         <p class="product__price">руб 2999</p>
-
-    //                         <button class="product__btn-favorite" aria-label="Добавить в избранное">
-                                    
-    //                         </button>
-    //                     </div>
-
-    //                     <ul class="product__color-list">
-    //                         <li class="product__color-item product__color-item_check">
-    //                             <div class="color color_beige"></div>
-    //                         </li>
-    //                         <li class="product__color-item">
-    //                             <div class="color color_red"></div>
-    //                         </li>
-    //                         <li class="product__color-item">
-    //                             <div class="color color_white"></div>
-    //                         </li>
-    //                     </ul>
-    //                 </article>
-    //             </li>
-    //         </ul>
-    //     </div>
-    // `;
-}
+        renderPagination(pagination, data.page, data.pages, COUNT_PAGINATION);
+    }
+};

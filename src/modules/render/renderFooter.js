@@ -1,5 +1,4 @@
 import { DATA } from "../const";
-console.log('DATA: ', DATA);
 import { createElement } from "../createElement";
 
 const vkLink = createElement('a', {
