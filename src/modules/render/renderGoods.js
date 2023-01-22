@@ -1,12 +1,11 @@
-import { API_URL, COUNT_PAGINATION, DATA } from "../const";
+import { API_URL, COUNT_PAGINATION, DATA, products } from "../const";
 import { createElement } from "../utils/createElement";
 import { getData } from "../getData";
 import { renderPagination } from "./renderPagination";
+import { getFavorite } from "../controller/favoriteController";
 
 
 export const renderGoods = async (title, params) => {
-    const products = document.querySelector('.goods');
-
     products.textContent = '';
 
     const data = await getData(`${API_URL}/api/goods`, params);
@@ -19,13 +18,39 @@ export const renderGoods = async (title, params) => {
         parent: products,
     });
 
-    createElement('h2', {
+    const titleEl = createElement('h2', {
         className: 'goods__title',
         textContent: title,
     },
     {
         parent: container,
     });
+
+    if (Object.hasOwn(data, 'totalCount')) {
+        createElement('sup', {
+            className: 'gooda__title-sup',
+            innerHTML: `&nbsp(${data?.totalCount})`,
+        },
+            {
+                parent: titleEl,
+            }
+        );
+
+        if (!data.totalCount) {
+            createElement('p', {
+                className: 'goods__warning',
+                textContent: 'По Вашему запросу ничего не найдено'
+            }, 
+                {
+                    parent: container,
+                },
+            );
+
+            return;
+        }   
+    }
+
+    const favoriteList = getFavorite();
 
     const listCard = goods.map(product => {
         const li = createElement('li', {
@@ -44,7 +69,8 @@ export const renderGoods = async (title, params) => {
                     <p class="product__price">руб ${product.price}</p>
 
                     <button
-                        class="product__btn-favorite"
+                        class="product__btn-favorite favorite
+                            ${favoriteList.includes(product.id) ? 'favorite_active' : ''}"
                         aria-label="Добавить в избранное"
                         data-id=${product.id}></button>
                 </div>

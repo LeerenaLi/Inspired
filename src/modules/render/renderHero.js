@@ -1,4 +1,4 @@
-import { TITLE } from "../const";
+import { hero, TITLE } from "../const";
 import { createElement } from "../utils/createElement";
 
 const container = createElement('div', 
@@ -36,8 +36,6 @@ const heroLink = createElement('a',
 );
 
 export const renderHero = (gender) => {
-    const hero = document.querySelector('.hero');
-
     if (!gender) {
         hero.style.display = 'none';
         return;
@@ -48,9 +46,6 @@ export const renderHero = (gender) => {
     hero.className = `hero hero_${gender}`;
 
     hero.append(container);
-
-    // heroTitle.textContent = `${gender === 'women' ? 'Новая коллекция Бюстгальтер-балконет' : 'Боксеры из новой коллекции'}`;
-    // heroLink.href = `colection${gender}`;
 
     heroTitle.textContent = TITLE[gender].title;
     heroLink.href = `#/product/${TITLE[gender].id}`;
