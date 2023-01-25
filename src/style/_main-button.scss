@@ -1,0 +1,11 @@
+.main-button {
+    padding: 15px 21px;
+    background-color: $main-color;
+    font-weight: 700;
+    font-size: 14px;
+    text-transform: uppercase;
+    color: $second-color;
+    &:hover {
+        background-color: $gray;
+    }
+}

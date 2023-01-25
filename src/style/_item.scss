@@ -1,0 +1,128 @@
+.item {
+    display: grid;
+    grid-template-columns: auto 1fr auto auto;
+    gap: 24px 20px;
+    grid-template-areas:
+        'img content content del'
+        'img prop count count';
+        @include mobile {
+            gap: 10px 10px;
+            grid-template-areas:
+            'img content content del'
+            'prop prop count count';
+        }
+    &__img {
+        grid-area: img;
+        width: 160px;
+        height: 160px;
+        object-fit: cover;
+        @include mobile {
+            width: 80px;
+            height: 80px;
+        }
+    }
+    &__content {
+        grid-area: content; 
+    }
+    &__title {
+        font-weight: 400;
+        font-size: 14px;
+        text-transform: uppercase;
+        margin-bottom: 12px;
+        @include mobile {
+            font-size: 12px;
+            margin-bottom: 4px;
+        }
+    }
+    &__price {
+        font-weight: 400;
+        font-size: 14px;
+        text-transform: uppercase;
+        margin-bottom: 24px;
+        @include mobile {
+            font-size: 12px;
+            margin-bottom: 11px;
+        }
+    }                                      
+    &__vendor {
+        font-weight: 400;
+        font-size: 12px; 
+        @include mobile {
+            font-size: 10px;
+            margin-bottom: 18px;
+        }   
+    }
+    &__subtitle {
+        font-weight: 400;
+        font-size: 12px;
+        color: $gray;
+        @include mobile {
+            font-size: 10px;
+        }
+        &_vendor {
+            margin-bottom: 0;
+        }
+    }
+    &__id {
+        color: $main-color            ;
+    }
+    &__prop {
+        grid-area: prop;
+        display: flex;
+        gap: 22px;
+    }
+    &__color {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        align-items: center;
+        @include mobile {
+            gap: 4px;
+        }
+    }
+
+    &__color-item {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        border: 0.4px solid transparent;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        &_check {
+            border: 0.4px solid #929292;
+        }
+    }
+    &__size {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        align-items: center;
+        @include mobile {
+            gap: 4px;
+        }
+    }
+    &__size-item {
+        width: 46px;
+        height: 24px;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    &__del {
+        width: 24px;
+        height: 24px;
+        grid-area: del;
+        background-image: url('../img/close.svg');
+        background-repeat: no-repeat;
+        justify-self: end;
+        align-self: start;
+    }
+
+    &__count {
+        grid-area: count;
+        justify-self: end;
+        align-self: end;
+    }
+}
